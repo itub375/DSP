@@ -1,0 +1,40 @@
+# ===== KONFIGURATION / DREHSCHRAUBEN =====
+
+# Pfad zur interleavten MP3-Datei
+INPUT_FILE = "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Inputsignale/interleaved_1k_8k_vio_rand.mp3"
+
+# Länge eines Analyse-Frames in Sekunden ( 0.001 = 1 ms/ Achtung für signale unter 1000 Hz wird 1 ms evtl. zu knapp für eine richtige erkennung)
+FRAME_DURATION_S = 0.002
+
+# Perzentil für Schwellenwerte bei Centroid- und Energie-Detektion
+# höherer Wert -> weniger, aber stärkere Wechselstellen
+PERCENTILE_FEATURE = 80
+
+# Minimalabstand zwischen Wechselstellen innerhalb EINER Methode (Sekunden)
+MIN_GAP_S = 0.01
+
+# „Soll“-Segmentlänge der Interleaves (nur für Referenzlinien im Plot)
+TRUE_SEGMENT_DURATION_S = 0.05  # 0.05 s = 50 ms
+
+# Spezielle Einstellungen für die Energie-Detektion
+ENERGY_PERCENTILE = PERCENTILE_FEATURE     # ggf. separat anpassen
+ENERGY_MIN_GAP_S  = MIN_GAP_S
+
+# Einstellungen für die Formänderungs-Detektion (ShapeChange)
+SHAPE_PERCENTILE = PERCENTILE_FEATURE
+SHAPE_MIN_GAP_S  = MIN_GAP_S
+
+# Einstellungen für Amplitudensprünge (Sample-Differenzen)
+JUMP_PERCENTILE = 98       # hoch -> nur sehr starke Sprünge
+JUMP_MIN_GAP_S  = 0.005    # Minimalabstand zwischen Sprung-Wechselstellen
+
+# Zeitfenster, in dem verschiedene Methoden als „gleicher“ Wechsel zählen (Sekunden)
+JOINT_MAX_DIFF_S = 0.005   # z.B. 5 ms
+
+# Clustering der Segmente nach spektralem Schwerpunkt
+CLUSTER_THRESHOLD_HZ     = 500.0  # max. erlaubter Abstand zwischen Cluster-Mittelpunkten
+MIN_SEGMENTS_PER_CLUSTER = 3      # min. Anzahl Segmente, damit ein Cluster als „Signal“ zählt
+
+# Welche Prioritäten für Segmentgrenzen genutzt werden:
+# False: nur Prio 2+3; True: Prio 1–3
+USE_PRIO1_IN_BOUNDARIES = True
