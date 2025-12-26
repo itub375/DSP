@@ -1,11 +1,11 @@
 from pydub import AudioSegment
 
 # ===== Einstellungen =====
-input_file  = "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/sine_20kHz.mp3"         # Eingabedatei
-output_file = r"sine_20kHz.mp3" # Ausgabedatei
+input_file  = "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/Podcast.mp3"         # Eingabedatei
+output_file = r"Podcast_shorted.mp3" # Ausgabedatei
 
 # Variante 1: Zeit in Millisekunden angeben
-trim_ms = 25  # z.B. 2000 ms = 2 Sekunden
+trim_ms = 13500  # z.B. 2000 ms = 2 Sekunden
 
 # ODER Variante 2: Zeit in Sekunden angeben
 # trim_sec = 2.0

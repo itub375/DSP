@@ -6,8 +6,8 @@ from scipy import signal
 # ========================================
 # KONFIGURATION - Hier anpassen!
 # ========================================
-INPUT_FILE = r"C:/eigene Programme/VS_Code_Programme/HKA/DSP/out_v5.7/interleaved_pod_1k_30sec_rand/0/Signal_A.mp3"
-OUTPUT_FILE = r"C:/eigene Programme/VS_Code_Programme/HKA/DSP/output_cut_TP.mp3"
+INPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/out/out_v5.8/interleaved_pod_1k_60sec_rand/Signal_A.mp3"
+OUTPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/output_cut_TP.mp3"
 
 # --- TIEFPASS-FILTER ---
 ENABLE_LOWPASS = True                # True = Tiefpass aktivieren, False = deaktivieren

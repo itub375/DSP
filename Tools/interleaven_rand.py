@@ -2,17 +2,17 @@ from pydub import AudioSegment
 import random
 
 # ===== EINSTELLUNGEN =====
-TARGET_DURATION_MS = 30_000    # Ziel-Länge pro Spur (z.B. 10_000 für 10 s)
+TARGET_DURATION_MS = 60_000    # Ziel-Länge pro Spur (z.B. 10_000 für 10 s)
 MIN_BLOCK_MS = 20             # minimale Blocklänge in ms
 MAX_BLOCK_MS = 50             # maximale Blocklänge in ms
-OUTPUT_FILE = "Inputsignals/rand/interleaved_pod_1k_30sec_rand.mp3"
+OUTPUT_FILE = "Inputsignals/rand/interleaved_pod_1k_60sec_rand.mp3"
 
 # HIER deine MP3-Dateien eintragen:
 audio_files = [
     #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/sine_100Hz.mp3",
     #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/drum.mp3",
-    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Raw_signals/sine_1kHz.mp3",
-    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Raw_signals/Podcast.mp3",
+    "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/sine_1kHz.mp3",
+    "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/Podcast_shorted.mp3",
     #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/RAP_God.mp4",
     #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/sine_20kHz.mp3",
     #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/violin.mp3",

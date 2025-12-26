@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # === Einstellungen ===
-audio_path = "C:/eigene Programme/VS_Code_Programme/HKA/DSP/out_v5.7/interleaved_pod_1k_30sec_rand/0/Signal_A.mp3"  # Pfad zur MP3-Datei
+audio_path = "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/out/out_v5.8/interleaved_pod_1k_60sec_rand/Signal_A.mp3"  # Pfad zur MP3-Datei
 
 # Grenzfrequenzen für den Plot [Hz]
 # Setze f_min oder f_max auf None, wenn du die jeweilige Grenze nicht einschränken willst

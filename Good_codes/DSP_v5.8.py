@@ -29,7 +29,7 @@ class Config:
     HOP_MS: float = 0.5
     
     # ⭐ NEU: Minimale Amplitude für gültige Frames
-    MIN_AMPLITUDE_THRESHOLD: float = 0.05  # Frames unter diesem RMS-Wert werden ignoriert
+    MIN_AMPLITUDE_THRESHOLD: float = 0.01  # Frames unter diesem RMS-Wert werden ignoriert
     
     CHANGE_DETECTION_CFAR: bool = False
 
@@ -53,12 +53,12 @@ class Config:
     VERBOSE: bool = True
 
     # Weight Change Score
-    WEIGHT_CENTROID: int = 2.0
-    WEIGHT_RMS: int = 1.0
-    WEIGHT_Rolloff: int = 1.5
-    WEIGHT_ZCR: int = 1.5
-    WEIGHT_FLUX: int = 5
-    WEIGHT_BANDWIDTH: int = 1.0
+    WEIGHT_CENTROID: int    = 2.0      # 2.0
+    WEIGHT_RMS:      int    = 2.0      # 2.0
+    WEIGHT_Rolloff:  int    = 1.5      # 1.5
+    WEIGHT_ZCR:      int    = 1.5      # 1.5
+    WEIGHT_FLUX:     int    = 5.0      # 5.0
+    WEIGHT_BANDWIDTH:int    = 1.0      # 1.0
     
     # Dead-Zone um Wechselstellen
     DEADZONE_MS: float = 0
@@ -742,7 +742,7 @@ def plot_results(y: np.ndarray, sr: int, cfar: bool, features: Dict, save_path,
     
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
-    #plt.show()
+    plt.show()
 
 # ============================================================================
 # MAIN
@@ -756,7 +756,8 @@ def main():
         t1 = time.perf_counter()
         cfg.INPUT_FILE = a
         base_name = os.path.splitext(os.path.basename(cfg.INPUT_FILE))[0]
-        cfg.OUT_DIR = "out_v5.8/" + str(base_name) + "/"        
+        cfg.OUT_DIR = "out/out_v5.8/" + str(base_name) + "/"  
+
         print("="*60)
         print("Interleaved Audio Segmentation & Reconstruction v5.8")
         print("MIT AMPLITUDENSCHWELLE")
@@ -875,25 +876,27 @@ if __name__ == "__main__":
     audio_files = [
     
     #SINUS + Musik
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_vio_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_drum_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_jing_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_jingle_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_GOD_30sec_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_30sec_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/violin.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_vio_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_drum_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_jing_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_jingle_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_GOD_30sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_30sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/violin.mp3",
+    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_60sec_rand.mp3",
     
     # SINUS + WHITE/0
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_white_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_silence_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_white_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_silence_1k_8k_rand.mp3",
 
     # NUR SINUS
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_30_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_100_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_200_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_500_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_700_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_20k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_30_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_100_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_200_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_500_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_700_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_20k_rand.mp3",
+
 
     #...
     ]

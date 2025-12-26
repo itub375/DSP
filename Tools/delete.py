@@ -5,8 +5,8 @@ from pydub import AudioSegment
 # ========================================
 # KONFIGURATION - Hier anpassen!
 # ========================================
-INPUT_FILE = r"C:/eigene Programme/VS_Code_Programme/HKA/DSP/out_v5.7/interleaved_pod_1k_30sec_rand/0/Signal_B.mp3"
-OUTPUT_FILE = r"C:/eigene Programme/VS_Code_Programme/HKA/DSP/output_cut.mp3"
+INPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/out/out_v5.8/interleaved_pod_1k_60sec_rand/Signal_A.mp3"
+OUTPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/output_cut.mp3"
 
 # Schwellwert als PROZENT der maximalen Amplitude (0-100%)
 # 0% = absolut Null, 1% = sehr leise, 5% = noch leise, 10% = deutlich hörbar
