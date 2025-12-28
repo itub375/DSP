@@ -11,7 +11,7 @@ OUTPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/output_cut.mp3"
 
 # Schwellwert als PROZENT der maximalen Amplitude (0-100%)
 # 0% = absolut Null, 1% = sehr leise, 5% = noch leise, 10% = deutlich hörbar
-SILENCE_THRESHOLD_PERCENT = 55  # Empfohlen: 0.1 - 2.0%
+SILENCE_THRESHOLD_PERCENT = 2  # Empfohlen: 0.1 - 2.0%
 
 # Mindestlänge eines Stille-Bereichs, damit er entfernt wird (in ms)
 MIN_SILENCE_DURATION_MS = 0.5  # Nur Bereiche >= diesem Wert werden entfernt
