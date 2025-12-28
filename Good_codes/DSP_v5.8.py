@@ -35,7 +35,7 @@ class Config:
 
     # Change Detection
     CHANGE_THRESHOLD_PERCENTILE: float = 85.0
-    MIN_SEGMENT_MS: float = 5.0
+    MIN_SEGMENT_MS: float = 9.8
     MERGE_TOLERANCE_MS: float = 5.0
 
     # CFAR Change Detection
@@ -57,7 +57,7 @@ class Config:
     WEIGHT_RMS:      int    = 2.0      # 2.0
     WEIGHT_Rolloff:  int    = 1.5      # 1.5
     WEIGHT_ZCR:      int    = 1.5      # 1.5
-    WEIGHT_FLUX:     int    = 5.0      # 5.0
+    WEIGHT_FLUX:     int    = 20.0      # 5.0
     WEIGHT_BANDWIDTH:int    = 1.0      # 1.0
     
     # Dead-Zone um Wechselstellen

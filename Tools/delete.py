@@ -1,11 +1,12 @@
 import math
 import numpy as np
 from pydub import AudioSegment
+from pathlib import Path
 
 # ========================================
 # KONFIGURATION - Hier anpassen!
 # ========================================
-INPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/out/out_v5.8/interleaved_pod_1k_60sec_rand/Signal_A.mp3"
+INPUT_FILE: str = r"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Inputsignale/rand/interleaved_1k_8k_20k_rand.mp3"
 OUTPUT_FILE = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/output_cut.mp3"
 
 # Schwellwert als PROZENT der maximalen Amplitude (0-100%)
@@ -20,6 +21,31 @@ CROSSFADE_MS = 0  # 0 = aus, 1-5 ms empfohlen bei hörbaren Klicks
 
 # Debug-Modus: Zeigt detaillierte Informationen
 DEBUG = True
+
+
+# ========================================
+# EILENES DATEIPFAD
+# ========================================
+
+def ask_input_file(default_path: str = "") -> str:
+    prompt = 'Welche Datei soll bearbeitet werden?'
+    if default_path:
+        prompt += f' (Enter = Default: {default_path})'
+    prompt += '\n> '
+
+    path = input(prompt).strip()
+
+    # Wenn leer -> Default nehmen
+    if not path:
+        path = default_path
+
+    # Anführungszeichen entfernen (Windows Copy/Paste)
+    path = path.strip().strip('"').strip("'")
+
+    p = Path(path).expanduser()
+    if not p.exists():
+        raise FileNotFoundError(f"Datei nicht gefunden: {p}")
+    return str(p)
 
 # ========================================
 # HAUPTFUNKTIONEN
@@ -106,13 +132,15 @@ def remove_silence(audio, silence_regions, sample_rate, crossfade_ms):
 
 
 def main():
+    inputfile = ask_input_file(INPUT_FILE)
+
     print("=" * 60)
     print("AUDIO STILLE-ENTFERNER")
     print("=" * 60)
     
     # Audio laden
-    print(f"\n📂 Lade Audio: {INPUT_FILE}")
-    audio = AudioSegment.from_file(INPUT_FILE)
+    print(f"\n📂 Lade Audio: {inputfile}")
+    audio = AudioSegment.from_file(inputfile)
     
     # Audio-Eigenschaften
     sample_rate = audio.frame_rate

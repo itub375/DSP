@@ -1,26 +1,15 @@
 from pydub import AudioSegment
 
 # ===== EINSTELLUNGEN =====
-TARGET_DURATION_MS = 5_000   # 10 Sekunden
+TARGET_DURATION_MS = 60_000   # 10 Sekunden
 BLOCK_MS = 50                 # Blocklänge 50 ms
-OUTPUT_FILE = "Inputsignale/50ms/interleaved_1k_8k_vio_50ms.mp3"
+OUTPUT_FILE = "Inputsignals/50ms/interleaved_pod_1k_60sec_50ms.mp3"
 
 # HIER deine MP3-Dateien eintragen:
 audio_files = [
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/sine_30Hz.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/drum.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/sine_200Hz.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/sine_500Hz.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/sine_600Hz.mp3",
-    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/sine_1kHz.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/sine_4625kHz.mp3",
-    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/sine_8kHz.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/sine_20kHz.mp3",
-    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Signale/violin.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/drum.mp3",
-    #"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Singale/jingle.mp3",
-    # "audio3.mp3",
-    # ...
+    "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/sine_1kHz.mp3",
+    "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/Podcast_shorted.mp3",
+    #...
 ]
 
 

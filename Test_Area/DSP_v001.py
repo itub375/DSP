@@ -59,12 +59,12 @@ class Config:
     WEIGHT_ZCR: int = 1.5
     WEIGHT_FLUX: int = 5
     WEIGHT_BANDWIDTH: int = 1.0
-    
+
     # Dead-Zone um Wechselstellen
     DEADZONE_MS: float = 0
 
     #Überlagerung von zwei segmenten bei wiederherstellung für bessere ergebnisse
-    FADE_IN: float = 5.7
+    FADE_IN: float = 0
 
 # ============================================================================
 # AUDIO I/O

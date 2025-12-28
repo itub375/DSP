@@ -1,10 +1,38 @@
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
+
+
+# ========================================
+# EILENES DATEIPFAD
+# ========================================
+
+def ask_input_file(default_path: str = "") -> str:
+    prompt = 'Welche Datei soll bearbeitet werden?'
+    if default_path:
+        prompt += f' (Enter = Default: {default_path})'
+    prompt += '\n> '
+
+    path = input(prompt).strip()
+
+    # Wenn leer -> Default nehmen
+    if not path:
+        path = default_path
+
+    # Anführungszeichen entfernen (Windows Copy/Paste)
+    path = path.strip().strip('"').strip("'")
+
+    p = Path(path).expanduser()
+    if not p.exists():
+        raise FileNotFoundError(f"Datei nicht gefunden: {p}")
+    return str(p)
 
 # === Einstellungen ===
-audio_path = "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/out/out_v5.8/interleaved_pod_1k_60sec_rand/Signal_A.mp3"  # Pfad zur MP3-Datei
+audio_path = "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/Podcast_shorted.mp3 " #out/out_v001/interleaved_pod_1k_60sec_rand/Signal_A.mp3"  # Pfad zur MP3-Datei
 
+
+audio_path = ask_input_file(audio_path)
 # Grenzfrequenzen für den Plot [Hz]
 # Setze f_min oder f_max auf None, wenn du die jeweilige Grenze nicht einschränken willst
 f_min = 0        # z.B. 0 Hz
