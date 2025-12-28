@@ -1,13 +1,15 @@
 """
-Änderungen zu v5.6:
-- Hinzufügen von Deadzone   v5.5
-- Hinzufügen von CFAR       v5.4
-- Hinzufügen von loop       v5.3
+Rahmen Bedingung:
+    - Max 3 Signale
+    - keine zwei Stimm/musik signale
+    - 
 
-Neu in v5.8:
-- MIN_AMPLITUDE_THRESHOLD: Ignoriert Frames unter Minimalamplitude
-- valid_frames Flag: Markiert gültige/ungültige Frames
-- Frames unter Schwelle werden als Störung behandelt
+
+basierend auf v5.8
+Neu in v5.8.1:
+- Zero Crossing (segmente enden beim nächsten null durchgang)
+- fade In (im Knacken weg zu bekommen)
+- einfachere bedienung
 """
 import os
 import numpy as np
@@ -16,6 +18,7 @@ from dataclasses import dataclass
 from typing import List, Tuple, Dict
 from pydub import AudioSegment
 import time
+from pathlib import Path
 
 
 @dataclass
@@ -555,13 +558,15 @@ def cluster_segments(features: np.ndarray, n_clusters: int = None) -> np.ndarray
         
         centroid_range = centroids.max() - centroids.min()
         zcr_range = zcr_values.max() - zcr_values.min()
-        
+
+        #if centroid_range > 6000 or zcr_range > 0.18:
+        #    n_clusters = 4
         if centroid_range > 3000 or zcr_range > 0.1:
             n_clusters = 3
         elif centroid_range > 1000 or zcr_range > 0.05:
             n_clusters = 2
         else:
-            n_clusters = 2
+            n_clusters = 1
     
     np.random.seed(42)
     n_samples = len(features_norm)
@@ -713,7 +718,7 @@ def reconstruct_signals_optimized(y: np.ndarray, sr: int,
 def plot_results(y: np.ndarray, sr: int, cfar: bool, features: Dict, save_path, 
                 change_score: np.ndarray, threshold: float,
                 boundaries: List[float], segments: List[Tuple[float, float]], 
-                labels: np.ndarray, max_seconds: float = None):
+                labels: np.ndarray,plot_wanted:bool, max_seconds: float = None):
     """Visualisiert Ergebnisse - markiert ungültige Bereiche"""
     
     t = np.arange(len(y)) / sr
@@ -825,17 +830,48 @@ def plot_results(y: np.ndarray, sr: int, cfar: bool, features: Dict, save_path,
     
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
-    #plt.show()
+    if plot_wanted:
+        plt.show()
 
 # ============================================================================
 # MAIN
 # ============================================================================
+def ask_bool(prompt: str, default: bool | None = None) -> bool:
+    if default is True:
+        suffix = " [J/n]: "
+    elif default is False:
+        suffix = " [J/N]: "
+    else:
+        suffix = " [J/n]: "
+
+    while True:
+        s = input(prompt + suffix).strip().lower()
+
+        if s == "" and default is not None:
+            return default
+
+        if s in ("j", "ja", "y", "yes", "true", "1"):
+            return True
+        if s in ("n", "nein", "no", "false", "0"):
+            return False
+
+        print("Bitte 'j' oder 'n' eingeben.")
+
+
 
 def main():
     t0 = time.perf_counter()
     cfg = Config()
-    j = 0
-    for a in audio_files:
+    cfg.CHANGE_DETECTION_CFAR = cfar_wanted
+
+
+    if path_wanted:
+        files_to_process = audio_files
+    else:
+        p = Path(audio_files_folder)
+        files_to_process = [str(f) for f in p.iterdir() if f.is_file()]
+
+    for a in files_to_process:
         t1 = time.perf_counter()
         cfg.INPUT_FILE = a
         base_name = os.path.splitext(os.path.basename(cfg.INPUT_FILE))[0]
@@ -929,7 +965,7 @@ def main():
         print(f"\n[PLOT] Generating visualization...")
         save_path_plt = os.path.join(cfg.OUT_DIR, f"plt_{base_name}.png")
         plot_results(y, sr, cfg.CHANGE_DETECTION_CFAR, features, save_path_plt, 
-                    change_score, threshold, boundaries, segments, labels, max_seconds=3.0)
+                    change_score, threshold, boundaries, segments, labels,plot_wanted, max_seconds=3.0)
         
         t3 = time.perf_counter()
 
@@ -943,7 +979,6 @@ def main():
         print(f"Calculation time: {t_cal:.2f}s")
         print(f"{'='*60}\n")
         
-        j += 1
 
     print(f"\n{'='*60}")
     print("Done! 🎉")
@@ -956,31 +991,51 @@ def main():
 
 
 if __name__ == "__main__":
+    
+    audio_files_folder = r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/"
+    
     audio_files = [
     
-    #SINUS + Musik
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_vio_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_drum_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_jing_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_jingle_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_GOD_30sec_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_30sec_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/violin.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_60sec_rand.mp3",
+    # 4+ SIGNALE
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_pod_20k_God_60sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_vio_20k_God_30sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_vio_20k_pod_30sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_20k_30_30sec_rand.mp3",
+
+    #MEHRERE KOMPLEXE SIGNALE
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_drum_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_8k_jing_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_vio_jingle_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_God_60sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_God_60sec_rand.mp3",
+
+    #SINUS + KOMPLEXEs SIGNAL
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_vio_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_GOD_30sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_30sec_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_pod_1k_60sec_rand.mp3",
     
     # SINUS + WHITE/0
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_white_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_silence_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_white_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_silence_1k_8k_rand.mp3",
 
     # NUR SINUS
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_30_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_100_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_200_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_500_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_700_1k_8k_rand.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_20k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_30_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_100_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_200_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_500_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_700_1k_8k_rand.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_20k_rand.mp3",
+
+    #RAW SIGNALS
+    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/violin.mp3",
+    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/sine_1kHz.mp3",
 
 
     #...
     ]
+
+    plot_wanted = ask_bool("Soll geplotted werden?", default=True)
+    path_wanted = ask_bool("Sollen die gewählten Pfade verwendet werden?", default=True)
+    cfar_wanted = ask_bool("Soll CFAR genutzt werden?", default=False)
     main()
