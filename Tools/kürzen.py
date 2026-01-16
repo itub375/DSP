@@ -1,7 +1,7 @@
 from pydub import AudioSegment
 
 # ===== Einstellungen =====
-input_file  = "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/Podcast.mp3"         # Eingabedatei
+input_file  = "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Raw_signals/FürElise.mp3"         # Eingabedatei
 output_file = r"Podcast_shorted.mp3" # Ausgabedatei
 
 # Variante 1: Zeit in Millisekunden angeben

@@ -3,12 +3,12 @@ from pydub import AudioSegment
 # ===== EINSTELLUNGEN =====
 TARGET_DURATION_MS = 60_000   # 10 Sekunden
 BLOCK_MS = 50                 # Blocklänge 50 ms
-OUTPUT_FILE = "Inputsignals/50ms/interleaved_pod_1k_60sec_50ms.mp3"
+OUTPUT_FILE = "Inputsignals/50ms/interleaved_pimp_tag_60sec_50ms.mp3"
 
 # HIER deine MP3-Dateien eintragen:
 audio_files = [
-    "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/sine_1kHz.mp3",
-    "C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_signals/Podcast_shorted.mp3",
+    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Raw_signals/TagesSchau (2).mp3",
+    "C:/eigene Programme/VS_Code_Programme/HKA/DSP/Raw_signals/P-I-M-P.mp3",
     #...
 ]
 

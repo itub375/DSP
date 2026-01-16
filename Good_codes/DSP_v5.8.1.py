@@ -28,7 +28,7 @@ class Config:
     OUT_DIR: str = "output_segments"
     
     # Analyse-Parameter
-    WINDOW_MS: float = 2.0
+    WINDOW_MS: float = 5.0
     HOP_MS: float = 0.5
     
     # ⭐ NEU: Minimale Amplitude für gültige Frames
@@ -1028,8 +1028,8 @@ if __name__ == "__main__":
     #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Inputsignals/rand/interleaved_1k_8k_20k_rand.mp3",
 
     #RAW SIGNALS
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/violin.mp3",
-    r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/sine_1kHz.mp3",
+    #r"C:/eigene_Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/violin.mp3",
+    r"C:/eigene Programme/VS_Code_Programme/HKA/DSP/Raw_Signals/sine_1kHz.mp3",
 
 
     #...
